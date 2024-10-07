@@ -3,8 +3,8 @@
 # support cross-compilation and ninja-build
 include(ExternalProject)
 ExternalProject_Add(mdi_build
-  URL     "https://github.com/MolSSI-MDI/MDI_Library/archive/v1.4.18.tar.gz"
-  URL_MD5 "0722b1a4b32915bb0469f83a999be2f8"
+  URL     "https://github.com/MolSSI-MDI/MDI_Library/archive/v1.4.29.tar.gz"
+  URL_MD5 "32872e055500d2c21ce508385aec2264"
   CMAKE_ARGS ${CMAKE_REQUEST_PIC}
   -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
   -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE}
@@ -12,13 +12,12 @@ ExternalProject_Add(mdi_build
   -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
   -DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}
   -Dlanguage=C
-  -Dlibtype=STATIC
-  -Dmpi=OFF
+  -Dlibtype=SHARED
   -Dplugins=ON
   -Dpython_plugins=OFF
   UPDATE_COMMAND ""
   INSTALL_COMMAND ""
-  BUILD_BYPRODUCTS "<BINARY_DIR>/MDI_Library/libmdi.a"
+  BUILD_BYPRODUCTS "<BINARY_DIR>/MDI_Library/libmdi.so"
   )
 
 # where is the compiled library?
@@ -31,7 +30,7 @@ file(MAKE_DIRECTORY ${MDI_BINARY_DIR})
 add_library(mdi-lib UNKNOWN IMPORTED)
 add_dependencies(mdi-lib mdi_build)
 set_target_properties(mdi-lib PROPERTIES
-  IMPORTED_LOCATION "${MDI_BINARY_DIR}/libmdi.a"
+  IMPORTED_LOCATION "${MDI_BINARY_DIR}/libmdi.so"
   INTERFACE_INCLUDE_DIRECTORIES ${MDI_BINARY_DIR}
   )
 
