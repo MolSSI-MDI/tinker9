@@ -1,5 +1,6 @@
 #include "math/pow2.h"
 #include "md/integrator.h"
+#include "md/mdiengine.h"
 #include "md/misc.h"
 #include "md/pq.h"
 #include "tool/argkey.h"
@@ -165,6 +166,9 @@ void mdPropagate(int nsteps, time_prec dt_ps)
          mdsaveAsync(istep, dt_ps);
       }
       mdrest(istep);
+
+      // Allow MDI to control the number of executed steps
+      MDIEngine::update_nsteps(istep, &nsteps);
    }
    mdsaveSynchronize();
 }

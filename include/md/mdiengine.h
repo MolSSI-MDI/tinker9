@@ -17,6 +17,7 @@ protected:
    static int nrespa_mdi;
 public:
    static void initialize(int* argc_ptr, char*** argv_ptr);
+   static void update_nsteps(int istep, int* nsteps);
    static void set_nrespa(int nrespa);
    static void run_mdi(int node_id);
 

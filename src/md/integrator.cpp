@@ -351,6 +351,9 @@ static void nhc_npt(int istep, time_prec dt)
    // update thermostat and barostat values, scale atomic velocities
    hoover(dt, press);
 
+   // MDI @FORCES node
+   MDIEngine::run_mdi(MDIEngine::forces_node_id);
+
    mdVel(dt_2, gx, gy, gz);
 
    double term = vbar * dt_2;
@@ -376,6 +379,9 @@ static void nhc_npt(int istep, time_prec dt)
    poly *= expterm * dt;
    mdPosAxbv(eterm2, poly);
    copyPosToXyz(true);
+
+   // MDI @COORDS node
+   MDIEngine::run_mdi(MDIEngine::coords_node_id);
 
    energy(vers1);
 

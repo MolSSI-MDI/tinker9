@@ -69,6 +69,27 @@ void MDIEngine::set_nrespa(int nrespa_in)
    nrespa_mdi = nrespa_in;
 }
 
+void MDIEngine::update_nsteps(int istep, int* nsteps)
+{
+   // Check if the MDI Library has been initialized
+   int ret;
+   int is_initialized = 0;
+   ret = MDI_Initialized(&is_initialized);
+   if ( ret ) {
+      TINKER_THROW(format("MDI  --  Error in MDI_Initialized\n"));
+   }
+   if (not is_initialized) { return; }
+   
+   if ( exit_mdi ) {
+     // Ensure that the integrator will exit
+     *nsteps = istep;
+   }
+   else {
+     // Increment the number of steps to run
+     *nsteps += 1;
+   }
+}
+
 void MDIEngine::run_mdi(int node_id)
 {
    int ret;
